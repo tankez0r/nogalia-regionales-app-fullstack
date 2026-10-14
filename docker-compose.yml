@@ -1,0 +1,27 @@
+services:
+  web:
+    build: .
+    ports:
+      - "${PUERTO:-8080}:80"
+    env_file: .env
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    # hora de Argentina para que las fechas de las ventas salgan bien
+    command: --default-time-zone=-03:00
+    volumes:
+      - datos:/var/lib/mysql
+      # la primera vez que arranca crea las tablas con el script
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    restart: unless-stopped
+
+volumes:
+  datos:

@@ -74,11 +74,33 @@ así que se carga directo en el navegador.
 
 ## Despliegue
 
-(pendiente)
+La app está en una PC nuestra que hace de servidor, con Docker. Corren dos contenedores:
+uno con PHP 8.2 y Apache (la app) y otro con MySQL 8 (la base). Para que se pueda entrar
+desde internet por HTTPS usamos un túnel que publica el puerto de la app.
+
+Es un modelo parecido a IaaS: nosotros administramos la máquina, Docker, la base y las
+actualizaciones. Lo elegimos porque ya teníamos la PC y el túnel funcionando, y así no
+dependemos de los límites de los planes gratis de las plataformas.
+
+Pasos para volver a desplegar:
+
+1. Tener Docker instalado en la PC.
+2. Copiar `.env.example` a `.env` y completar los valores. `DB_HOST` tiene que ser `db`
+   (el nombre del contenedor de MySQL), `APP_ENV` tiene que ser `production` y `PUERTO` es
+   el puerto de la PC donde va a quedar la app (por defecto 8080).
+3. Desde la carpeta del proyecto: `docker compose up -d --build`
+4. La primera vez MySQL ejecuta solo `sql/schema.sql` y crea las tablas.
+5. Apuntar el túnel al puerto configurado en `PUERTO` y poner la URL pública en
+   `ALLOWED_ORIGIN`.
+
+Para actualizar después de un cambio en el código alcanza con repetir el paso 3. Los datos de
+la base quedan guardados en un volumen de Docker, así que no se pierden.
 
 ## Limitaciones conocidas
 
 - No hay login, cualquiera puede usar el CRUD.
+- La app depende de que la PC servidor esté prendida y con internet. Si se corta la luz o
+  la conexión, la app no responde hasta que vuelva.
 - El aviso de stock bajo solo se manda al crear o editar un producto. No hay un chequeo
   periódico.
 
