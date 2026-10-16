@@ -44,7 +44,7 @@ app.js, ventas.js, comun.js, styles.css
 | GET | `api/ventas.php?id=1` | id | una venta con sus productos | 200, 400, 404, 500 |
 | POST | `api/ventas.php` | JSON `{items: [{producto_id, cantidad}]}` | `{venta}` | 201, 400, 422, 500 |
 | PUT | `api/ventas.php?id=1` | id | anula la venta y devuelve `{venta}` | 200, 400, 404, 409, 500 |
-| GET | `api/notificaciones.php` | `?no_leidas=1` (opcional) | lista de notificaciones | 200, 500 |
+| GET | `api/notificaciones.php` | `?no_leidas=1`, `?recientes=1` (últimas 24 horas), opcionales | lista de notificaciones | 200, 500 |
 | PUT | `api/notificaciones.php?id=1` | id | la marca como leída y devuelve `{notificacion}` | 200, 400, 404, 500 |
 
 Ejemplo de JSON para crear o editar un producto:
@@ -132,4 +132,4 @@ Cada uno hizo sus partes en commits separados:
 | Torres, Martin Alberto (tankez0r) | `f5f3523` version para xampp | esta rama, sin los archivos de Docker y con el README para XAMPP | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `d0e35d7`, `9fe6cca`, `722ddfe` clima | clima de Famatina con Open-Meteo, la tarjeta y su lugar en el encabezado | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `1f7fd58` adapto la web para celular | estilos para pantallas chicas y las tablas como tarjetas en `app.js` y `ventas.js` | 16/10/2026 |
-| Torres, Martin Alberto (tankez0r) | `ab1c1e8` notificaciones de stock bajo | tabla `notificaciones`, `api/notificaciones.php`, el aviso en `api/servicios.php` y la sección en `index.html` | 16/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `ab1c1e8`, `05674c2` notificaciones de stock bajo | tabla `notificaciones`, `api/notificaciones.php`, el aviso en `api/servicios.php`, la sección en `index.html` y la opción de ver todas | 16/10/2026 |
