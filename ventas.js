@@ -80,11 +80,11 @@ function mostrarCarrito() {
     total += subtotal;
     const fila = document.createElement('tr');
     fila.innerHTML = `
-      <td>${escapar(item.nombre)}</td>
-      <td>${item.cantidad}</td>
-      <td>$${item.precio.toFixed(2)}</td>
-      <td>$${subtotal.toFixed(2)}</td>
-      <td><button type="button" onclick="quitarDelCarrito(${item.producto_id})">Quitar</button></td>`;
+      <td data-label="Producto">${escapar(item.nombre)}</td>
+      <td data-label="Cantidad">${item.cantidad}</td>
+      <td data-label="Precio">$${item.precio.toFixed(2)}</td>
+      <td data-label="Subtotal">$${subtotal.toFixed(2)}</td>
+      <td class="acciones"><button type="button" onclick="quitarDelCarrito(${item.producto_id})">Quitar</button></td>`;
     cuerpo.appendChild(fila);
   }
 
@@ -144,11 +144,11 @@ async function cargarVentas() {
       const fila = document.createElement('tr');
       if (v.estado === 'anulada') fila.className = 'bajo-stock';
       fila.innerHTML = `
-        <td>${escapar(v.fecha)}</td>
-        <td>$${Number(v.total).toFixed(2)}</td>
-        <td>${escapar(v.estado)}</td>
-        <td>${detalle}</td>
-        <td>${v.estado === 'completada' ? `<button type="button" onclick="anularVenta(${v.id})">Anular</button>` : ''}</td>`;
+        <td data-label="Fecha">${escapar(v.fecha)}</td>
+        <td data-label="Total">$${Number(v.total).toFixed(2)}</td>
+        <td data-label="Estado">${escapar(v.estado)}</td>
+        <td data-label="Productos">${detalle}</td>
+        <td class="acciones">${v.estado === 'completada' ? `<button type="button" onclick="anularVenta(${v.id})">Anular</button>` : ''}</td>`;
       cuerpo.appendChild(fila);
     }
   } catch (e) {

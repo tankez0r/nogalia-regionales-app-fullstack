@@ -51,13 +51,13 @@ function mostrarTabla() {
       fila.className = 'bajo-stock';
     }
     fila.innerHTML = `
-      <td>${escapar(p.nombre)}</td>
-      <td>${escapar(p.categoria)}</td>
-      <td>$${Number(p.precio).toFixed(2)}</td>
-      <td>${p.stock}</td>
-      <td>${p.stock_minimo}</td>
-      <td>${escapar(p.origen || '')}</td>
-      <td>
+      <td data-label="Nombre">${escapar(p.nombre)}</td>
+      <td data-label="Categoría">${escapar(p.categoria)}</td>
+      <td data-label="Precio">$${Number(p.precio).toFixed(2)}</td>
+      <td data-label="Stock">${p.stock}</td>
+      <td data-label="Mínimo">${p.stock_minimo}</td>
+      <td data-label="Origen">${escapar(p.origen || '')}</td>
+      <td class="acciones">
         <button type="button" onclick="editarProducto(${p.id})">Editar</button>
         <button type="button" onclick="borrarProducto(${p.id})">Borrar</button>
       </td>`;
