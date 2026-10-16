@@ -17,16 +17,16 @@ TP Integrador N.º 1 de Aplicaciones Móviles y Cloud Computing.
 4. Abrir `http://localhost/nogalina-regionales/`.
 
 En local no hace falta configurar nada: si no hay variables de entorno, `api/config.php` usa
-los datos por defecto de XAMPP (usuario `root` sin contraseña). El mail de stock bajo no se
-manda porque no está la clave de Resend, pero el resto funciona igual.
+los datos por defecto de XAMPP (usuario `root` sin contraseña). Sin la clave de Resend no se
+mandan mails, pero los avisos de stock bajo quedan igual en la sección de notificaciones.
 
 ### Carpetas
 
 ```
-api/          backend en PHP (config.php, productos.php, ventas.php, servicios.php)
+api/          backend en PHP (config.php, productos.php, ventas.php, notificaciones.php, servicios.php)
 sql/          script para crear la base
 img/          imagen de fondo
-index.html    productos (CRUD), clima y mapa
+index.html    productos (CRUD), notificaciones, clima y mapa
 ventas.html   registrar ventas e historial
 app.js, ventas.js, comun.js, styles.css
 ```
@@ -44,6 +44,8 @@ app.js, ventas.js, comun.js, styles.css
 | GET | `api/ventas.php?id=1` | id | una venta con sus productos | 200, 400, 404, 500 |
 | POST | `api/ventas.php` | JSON `{items: [{producto_id, cantidad}]}` | `{venta}` | 201, 400, 422, 500 |
 | PUT | `api/ventas.php?id=1` | id | anula la venta y devuelve `{venta}` | 200, 400, 404, 409, 500 |
+| GET | `api/notificaciones.php` | `?no_leidas=1` (opcional) | lista de notificaciones | 200, 500 |
+| PUT | `api/notificaciones.php?id=1` | id | la marca como leída y devuelve `{notificacion}` | 200, 400, 404, 500 |
 
 Ejemplo de JSON para crear o editar un producto:
 
@@ -61,8 +63,8 @@ Si faltan datos o son incorrectos la API responde 422 con el detalle de cada cam
 | APP_ENV | en `production` se apaga `display_errors` |
 | DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS | conexión a MySQL |
 | ALLOWED_ORIGIN | origen permitido para CORS (no usamos `*`) |
-| RESEND_API_KEY | clave de Resend para mandar los mails |
-| MAIL_TO | a quién le llegan los avisos de stock bajo |
+| RESEND_API_KEY | clave de Resend para mandar los mails (opcional) |
+| MAIL_TO | a quién le llegan los avisos de stock bajo por mail (opcional) |
 
 Los valores nunca están en el repo. `.env.example` tiene solo los nombres.
 En XAMPP se pueden cargar con `SetEnv` en la configuración de Apache (`httpd.conf`), por
@@ -72,7 +74,7 @@ ejemplo para probar el mail de stock bajo con la clave de Resend.
 
 | Servicio | Quién lo llama | Por qué | Datos que salen | Si falla |
 |---|---|---|---|---|
-| Resend (email) | backend (`api/servicios.php`) | avisar cuando un producto queda con stock bajo | nombre del producto y cantidades, a `MAIL_TO` | el producto o la venta se guardan igual y la API devuelve `advertencia` |
+| Resend (email) | backend (`api/servicios.php`) | además de la notificación, avisar por mail cuando un producto queda con stock bajo (solo si está configurada la clave) | nombre del producto y cantidades, a `MAIL_TO` | la notificación, el producto y la venta se guardan igual y la API devuelve `advertencia` |
 | Leaflet + OpenStreetMap (mapa) | navegador (`app.js`) | mostrar dónde está la tienda | ningún dato de la app, solo se piden los mapas de la zona | se muestra "No se pudo cargar el mapa" y el resto de la página funciona |
 | Open-Meteo (clima) | navegador (`app.js`) | mostrar el clima del día en Famatina | solo las coordenadas de Famatina | se muestra "No se pudo cargar el clima" y el resto de la página funciona |
 
@@ -96,14 +98,25 @@ historial.
 - Cada item guarda el nombre y el precio que tenía el producto en ese momento, así el
   historial no cambia si después se edita o se borra el producto.
 - Una venta se puede anular: vuelve el stock pero la venta queda en el historial.
-- Si después de una venta algún producto queda en el mínimo o por debajo, se manda el aviso
-  por mail igual que al crear o editar un producto.
+- Si después de una venta algún producto queda en el mínimo o por debajo, se guarda una
+  notificación igual que al crear o editar un producto.
+
+## Notificaciones
+
+Cada vez que un producto queda en el mínimo o por debajo se guarda una notificación en la
+tabla `notificaciones`. En `index.html` se ven las que no están leídas, y con "Marcar como leída"
+dejan de mostrarse pero siguen en la base, así queda el registro completo. Si está configurada la
+clave de Resend, además se manda el aviso por mail.
+
+Si la base se creó antes de que existieran las notificaciones, hay que ejecutar solo el
+`CREATE TABLE notificaciones` de `sql/schema.sql`. Si se ejecuta el script entero se duplican los
+productos de ejemplo.
 
 ## Limitaciones conocidas
 
 - No hay login, cualquiera puede usar el CRUD.
-- El aviso de stock bajo solo se manda al crear o editar un producto o al registrar una
-  venta. No hay un chequeo periódico.
+- La notificación de stock bajo solo se genera al crear o editar un producto o al registrar una
+  venta. No hay un chequeo periódico, y la página no se actualiza sola si llega una nueva.
 - El clima se pide una vez al abrir la página, no se actualiza solo.
 
 ## Aportes
@@ -119,3 +132,4 @@ Cada uno hizo sus partes en commits separados:
 | Torres, Martin Alberto (tankez0r) | `f5f3523` version para xampp | esta rama, sin los archivos de Docker y con el README para XAMPP | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `d0e35d7`, `9fe6cca`, `722ddfe` clima | clima de Famatina con Open-Meteo, la tarjeta y su lugar en el encabezado | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `1f7fd58` adapto la web para celular | estilos para pantallas chicas y las tablas como tarjetas en `app.js` y `ventas.js` | 16/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `ab1c1e8` notificaciones de stock bajo | tabla `notificaciones`, `api/notificaciones.php`, el aviso en `api/servicios.php` y la sección en `index.html` | 16/10/2026 |
