@@ -74,6 +74,21 @@ th, td { padding: 0.5rem; border-bottom: 1px solid #e2ddd2; text-align: left; }
 
 #mapa { height: 300px; border-radius: 8px; }
 
+.clima {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 360px;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border-left: 5px solid var(--tierra);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.clima-icono { font-size: 3rem; line-height: 1; }
+.clima-temp { font-size: 1.8rem; font-weight: bold; color: var(--nogal); }
+.clima-detalle { margin-top: 0.25rem; font-size: 0.85rem; color: #6b6255; }
+
 #mensajes .ok,
 #mensajes .error {
   padding: 0.65rem 0.9rem;
