@@ -5,6 +5,7 @@ let productos = [];
 document.addEventListener('DOMContentLoaded', function () {
   cargarProductos();
   cargarMapa();
+  cargarClima();
 
   document.getElementById('form-producto').addEventListener('submit', guardarProducto);
   document.getElementById('btn-cancelar').addEventListener('click', limpiarFormulario);
@@ -159,4 +160,42 @@ function cargarMapa() {
   }).addTo(mapa);
 
   L.marker(famatina).addTo(mapa).bindPopup('Nogalina Regionales').openPopup();
+}
+
+async function cargarClima() {
+  const caja = document.getElementById('clima');
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.9167&longitude=-67.5167'
+    + '&current=temperature_2m,weather_code,wind_speed_10m'
+    + '&daily=temperature_2m_max,temperature_2m_min'
+    + '&timezone=America%2FArgentina%2FLa_Rioja&forecast_days=1';
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      caja.textContent = 'No se pudo cargar el clima.';
+      return;
+    }
+    const datos = await res.json();
+    const actual = datos.current;
+    caja.textContent = descripcionClima(actual.weather_code)
+      + ', ' + Math.round(actual.temperature_2m) + ' °C'
+      + ' (mín. ' + Math.round(datos.daily.temperature_2m_min[0]) + ' °C'
+      + ', máx. ' + Math.round(datos.daily.temperature_2m_max[0]) + ' °C)'
+      + '. Viento ' + Math.round(actual.wind_speed_10m) + ' km/h.';
+  } catch (e) {
+    caja.textContent = 'No se pudo cargar el clima.';
+  }
+}
+
+function descripcionClima(codigo) {
+  if (codigo === 0) return 'Despejado';
+  if (codigo <= 2) return 'Parcialmente nublado';
+  if (codigo === 3) return 'Nublado';
+  if (codigo <= 48) return 'Niebla';
+  if (codigo <= 57) return 'Llovizna';
+  if (codigo <= 67) return 'Lluvia';
+  if (codigo <= 77) return 'Nieve';
+  if (codigo <= 82) return 'Chaparrones';
+  if (codigo <= 86) return 'Nevadas';
+  return 'Tormenta';
 }
