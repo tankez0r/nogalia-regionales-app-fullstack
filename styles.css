@@ -106,3 +106,55 @@ th, td { padding: 0.5rem; border-bottom: 1px solid #e2ddd2; text-align: left; }
 }
 #mensajes .ok { background: #e6f4ea; color: #205724; }
 #mensajes .error { background: #fdecea; color: #8a1f16; }
+
+@media (max-width: 640px) {
+  body { min-height: 100vh; background-attachment: scroll; }
+
+  header { padding: 1rem; }
+  header h1 { font-size: 1.5rem; }
+  header .clima { max-width: none; width: 100%; }
+
+  main {
+    margin: 0;
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  .filtros input[type="text"],
+  .filtros select { flex: 1 1 100%; }
+  .filtros input[type="number"] { flex: 1; min-width: 0; }
+
+  .panel form { grid-template-columns: 1fr; }
+  .botones button { flex: 1; }
+
+  button { min-height: 2.75rem; }
+
+  thead { display: none; }
+  table, tbody, tr, td { display: block; }
+  table { background: none; }
+
+  tr {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.4rem 0;
+    text-align: right;
+  }
+  td[data-label]::before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: left;
+  }
+  td.acciones { justify-content: flex-end; border-bottom: none; }
+  td.acciones:empty { display: none; }
+
+  #mapa { height: 220px; }
+}
