@@ -5,6 +5,10 @@ require 'servicios.php';
 $metodo = $_SERVER['REQUEST_METHOD'];
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 
+// El GET(id) siempre llega como texto, porque viene de la URL. ctype_digit() comprueba que tenga
+// solo dígitos. Así se rechazan abc, -5, 1.5 y 1 o 1=1. Si no es válido responde con un código 400 -
+// bad request y 404 si el producto no existe. Esto con la idea de cumplir el requisito número 2 de
+// la consigna.
 if ($id !== null && !ctype_digit($id)) {
     responder(['error' => 'El id no es válido'], 400);
 }
@@ -53,6 +57,8 @@ function datosProducto($d)
     ];
 }
 
+// Todo el código está en un bloque try catch. El catch ocupa las últimas líneas (152-155), este
+// bloque intercepta cualquier tipo de error y es reportado dentro de los logs.
 try {
     $pdo = conectar();
 
@@ -65,6 +71,11 @@ try {
             responder($producto);
         }
 
+        // El WHERE 1 = 1 siempre es verdadero, así que no filtra nada, pero sirve para que cada filtro
+        // se pueda sumar con un AND sin fijarse si es el primero. Lo que escribe el usuario nunca se
+        // pega en el SQL, va como ? y los valores se pasan aparte en execute(), así la base los toma
+        // solo como datos y no se puede hacer inyección SQL. Esto con la idea de cumplir el requisito
+        // número 8 de la consigna.
         $sql = 'SELECT * FROM productos WHERE 1 = 1';
         $parametros = [];
 
@@ -100,6 +111,7 @@ try {
             VALUES (:nombre, :categoria, :precio, :stock, :stock_minimo, :unidad, :descripcion, :origen)');
         $stmt->execute(datosProducto($datos));
 
+        // Se guarda aunque el mail falla.
         $respuesta = ['producto' => buscarProducto($pdo, $pdo->lastInsertId())];
         $aviso = avisarStockBajo(trim($datos['nombre']), (int) $datos['stock'], (int) $datos['stock_minimo']);
         if ($aviso) {
