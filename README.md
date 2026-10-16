@@ -23,7 +23,7 @@ manda porque no está la clave de Resend, pero el resto funciona igual.
 ### Carpetas
 
 ```
-api/          backend en PHP (config.php, productos.php, servicios.php)
+api/          backend en PHP (config.php, productos.php, ventas.php, servicios.php)
 sql/          script para crear la base
 img/          imagen de fondo
 index.html    productos (CRUD) y mapa
@@ -39,6 +39,10 @@ app.js, comun.js, styles.css
 | POST | `api/productos.php` | JSON del producto | `{producto}` | 201, 400, 422, 500 |
 | PUT | `api/productos.php?id=1` | JSON del producto | `{producto}` | 200, 400, 404, 422, 500 |
 | DELETE | `api/productos.php?id=1` | id | `{ok: true}` | 200, 400, 404, 500 |
+| GET | `api/ventas.php` | nada | historial de ventas con sus productos | 200, 500 |
+| GET | `api/ventas.php?id=1` | id | una venta con sus productos | 200, 400, 404, 500 |
+| POST | `api/ventas.php` | JSON `{items: [{producto_id, cantidad}]}` | `{venta}` | 201, 400, 422, 500 |
+| PUT | `api/ventas.php?id=1` | id | anula la venta y devuelve `{venta}` | 200, 400, 404, 409, 500 |
 
 Ejemplo de JSON para crear o editar un producto:
 

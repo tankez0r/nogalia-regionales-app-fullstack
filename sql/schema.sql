@@ -19,6 +19,29 @@ CREATE TABLE IF NOT EXISTS productos (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- cabecera de cada venta
+CREATE TABLE IF NOT EXISTS ventas (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  total DECIMAL(10,2) NOT NULL DEFAULT 0,
+  estado ENUM('completada', 'anulada') NOT NULL DEFAULT 'completada',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- productos de cada venta. Guardamos el nombre y el precio del momento
+-- para que el historial no cambie si después se edita o se borra el producto.
+CREATE TABLE IF NOT EXISTS detalle_venta (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  venta_id INT UNSIGNED NOT NULL,
+  producto_id INT UNSIGNED NULL,
+  producto_nombre VARCHAR(120) NOT NULL,
+  cantidad INT UNSIGNED NOT NULL,
+  precio_unitario DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (venta_id) REFERENCES ventas(id) ON DELETE CASCADE,
+  FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- algunos productos de ejemplo
 INSERT INTO productos (nombre, categoria, precio, stock, stock_minimo, unidad, descripcion, origen) VALUES
 ('Miel de la sierra', 'Miel', 2500.00, 12, 5, 'kg', 'Miel pura de la zona', 'Famatina'),
