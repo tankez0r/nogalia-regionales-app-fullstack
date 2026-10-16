@@ -82,15 +82,18 @@ th, td { padding: 0.5rem; border-bottom: 1px solid #e2ddd2; text-align: left; }
 
 #mapa { height: 300px; border-radius: 8px; }
 
+.notificaciones summary {
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--nogal);
+}
+.notificaciones summary.hay-nuevas { color: var(--tierra); }
 .notificaciones-titulo {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  justify-content: flex-end;
+  margin: 0.75rem 0;
 }
-.notificaciones h2 { margin: 0; }
 .boton-link {
   background: none;
   color: var(--tierra);

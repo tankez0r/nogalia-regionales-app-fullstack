@@ -20,13 +20,13 @@
   <main>
     <section id="mensajes" aria-live="polite"></section>
 
-    <section class="notificaciones">
+    <details class="notificaciones" id="notificaciones">
+      <summary id="resumen-notificaciones">Notificaciones</summary>
       <div class="notificaciones-titulo">
-        <h2>Notificaciones</h2>
         <button type="button" id="btn-ver-notificaciones" class="boton-link">Ver todas las notificaciones</button>
       </div>
       <ul id="lista-notificaciones"></ul>
-    </section>
+    </details>
 
     <section class="filtros">
       <input id="filtro-categoria" type="text" placeholder="Categoría">
