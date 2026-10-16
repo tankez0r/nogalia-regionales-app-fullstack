@@ -3,8 +3,8 @@
 App para manejar el stock de una tienda de productos regionales de Famatina, La Rioja.
 TP Integrador N.º 1 de Aplicaciones Móviles y Cloud Computing.
 
-- App: https://REEMPLAZAR-CON-LA-URL
-- API: https://REEMPLAZAR-CON-LA-URL/api/productos.php
+- App: https://mu-chilecito.playit.plus/nogalina/
+- API: https://mu-chilecito.playit.plus/nogalina/api/productos.php
 - Integrantes: Torres, Martin Alberto y Torres, Carlos Emanuel
 
 ## Cómo correrla en local (XAMPP)
@@ -83,8 +83,8 @@ de la app, así que se cargan directo en el navegador.
 ## Despliegue
 
 Esta rama es la versión para correr en local con XAMPP. La versión desplegada está en la rama
-`main`, que usa Docker en la PC servidor y un túnel para publicarla por HTTPS (los pasos están
-en el README de esa rama).
+`main`, que se despliega con Docker en un servidor nuestro y se publica por HTTPS en la URL de
+arriba (los pasos están en el README de esa rama).
 
 ## Ventas
 
@@ -113,6 +113,6 @@ Cada uno hizo sus partes en commits separados:
 | Integrante | Commit | Qué hizo | Fecha |
 |---|---|---|---|
 | Torres, Martin Alberto (tankez0r) | `5d6466f` abm de productos y mapa | estructura del proyecto, `api/config.php`, `api/productos.php`, `api/servicios.php` (Resend), tabla de productos en `sql/schema.sql`, `index.html`, `app.js`, `comun.js`, `styles.css` y el mapa | 14/10/2026 |
-| Torres, Martin Alberto (tankez0r) | `d205ff7` agrego docker | `Dockerfile`, `docker-compose.yml` y el despliegue en la PC con el túnel | 14/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `d205ff7` agrego docker | `Dockerfile`, `docker-compose.yml` y los pasos de despliegue | 14/10/2026 |
 | Torres, Carlos Emanuel (puchito456) | `1f98617` api de ventas | `api/ventas.php` y las tablas `ventas` y `detalle_venta` | 15/10/2026 |
 | Torres, Carlos Emanuel (puchito456) | `0a8025c` pagina de ventas | `ventas.html`, `ventas.js` y el link a ventas en `index.html` | 15/10/2026 |
