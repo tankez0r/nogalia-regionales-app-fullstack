@@ -19,9 +19,12 @@ try {
     $pdo = conectar();
 
     if ($metodo === 'GET') {
-        $sql = 'SELECT * FROM notificaciones';
+        $sql = 'SELECT * FROM notificaciones WHERE 1 = 1';
         if (!empty($_GET['no_leidas'])) {
-            $sql .= ' WHERE leida = 0';
+            $sql .= ' AND leida = 0';
+        }
+        if (!empty($_GET['recientes'])) {
+            $sql .= ' AND fecha >= NOW() - INTERVAL 1 DAY';
         }
         $sql .= ' ORDER BY id DESC';
         responder($pdo->query($sql)->fetchAll());

@@ -82,7 +82,21 @@ th, td { padding: 0.5rem; border-bottom: 1px solid #e2ddd2; text-align: left; }
 
 #mapa { height: 300px; border-radius: 8px; }
 
-.notificaciones h2 { margin-top: 0; }
+.notificaciones-titulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.notificaciones h2 { margin: 0; }
+.boton-link {
+  background: none;
+  color: var(--tierra);
+  padding: 0;
+  text-decoration: underline;
+}
 .notificaciones ul {
   list-style: none;
   margin: 0;
@@ -101,6 +115,7 @@ th, td { padding: 0.5rem; border-bottom: 1px solid #e2ddd2; text-align: left; }
   border-radius: 6px;
 }
 .notificaciones small { color: #6b6255; margin-right: 0.5rem; }
+.notificaciones li.leida { background: #f1eee6; border-left-color: #c9c4b8; color: #6b6255; }
 
 .clima {
   display: flex;
