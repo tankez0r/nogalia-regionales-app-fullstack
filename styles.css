@@ -129,6 +129,8 @@ th, td { padding: 0.5rem; border-bottom: 1px solid #e2ddd2; text-align: left; }
 
   button { min-height: 2.75rem; }
 
+  /* En el celular la tabla no entra, así que cada fila pasa a ser una tarjeta. Como el encabezado
+     se oculta, el data-label pone el nombre de la columna al lado de cada valor. */
   thead { display: none; }
   table, tbody, tr, td { display: block; }
   table { background: none; }

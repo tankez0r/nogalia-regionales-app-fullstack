@@ -23,6 +23,9 @@ async function cargarProductos() {
   if (q) params.set('q', q);
   if (document.getElementById('filtro-bajo').checked) params.set('bajo_stock', '1');
 
+  // fetch no da error cuando la API responde 404 o 500, por eso se revisa res.ok y se muestra el
+  // código. El catch es para cuando no hay conexión con el servidor. Esto con la idea de cumplir el
+  // requisito número 3 de la consigna.
   try {
     const res = await fetch(API + '?' + params.toString());
     if (!res.ok) {
@@ -145,6 +148,8 @@ function limpiarFormulario() {
   document.getElementById('form-titulo').textContent = 'Nuevo producto';
 }
 
+// Si no carga el mapa o falla el clima se muestra un mensaje en ese lugar y el resto de la página
+// sigue andando. Es parte del requisito 5, degradación elegante.
 function cargarMapa() {
   if (typeof L === 'undefined') {
     document.getElementById('mapa').textContent = 'No se pudo cargar el mapa.';
