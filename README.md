@@ -3,8 +3,8 @@
 App para manejar el stock de una tienda de productos regionales de Famatina, La Rioja.
 TP Integrador N.º 1 de Aplicaciones Móviles y Cloud Computing.
 
-- App: https://REEMPLAZAR-CON-LA-URL
-- API: https://REEMPLAZAR-CON-LA-URL/api/productos.php
+- App: https://mu-chilecito.playit.plus/nogalina/
+- API: https://mu-chilecito.playit.plus/nogalina/api/productos.php
 - Integrantes: Torres, Martin Alberto y Torres, Carlos Emanuel
 
 ## Cómo correrla en local
@@ -109,27 +109,41 @@ de la app, así que se cargan directo en el navegador.
 
 ## Despliegue
 
-La app está en una PC nuestra que hace de servidor, con Docker. Corren dos contenedores:
-uno con PHP 8.2 y Apache (la app) y otro con MySQL 8 (la base). Para que se pueda entrar
-desde internet por HTTPS usamos un túnel que publica el puerto de la app.
+La app corre en un servidor nuestro con Docker, en dos contenedores: uno con PHP 8.2 y Apache (la
+app) y otro con MySQL 8 (la base). El servidor ya tenía un dominio con HTTPS: un túnel de
+playit.gg llega a un nginx que tiene el certificado de Let's Encrypt. A ese nginx le agregamos la
+ruta `/nogalina/`, que manda las peticiones al contenedor de la app, así que no hizo falta un
+túnel aparte.
 
 Es un modelo parecido a IaaS: nosotros administramos la máquina, Docker, la base y las
-actualizaciones. Lo elegimos porque ya teníamos la PC y el túnel funcionando, y así no
+actualizaciones. Lo elegimos porque ya teníamos el servidor y el dominio funcionando, y así no
 dependemos de los límites de los planes gratis de las plataformas.
 
-Pasos para volver a desplegar:
+Cómo se actualiza:
 
-1. Tener Docker instalado en la PC.
-2. Copiar `.env.example` a `.env` y completar los valores. `DB_HOST` tiene que ser `db`
-   (el nombre del contenedor de MySQL), `APP_ENV` tiene que ser `production` y `PUERTO` es
-   el puerto de la PC donde va a quedar la app (por defecto 8080).
-3. Desde la carpeta del proyecto: `docker compose up -d --build`
-4. La primera vez MySQL ejecuta solo `sql/schema.sql` y crea las tablas.
-5. Apuntar el túnel al puerto configurado en `PUERTO` y poner la URL pública en
-   `ALLOWED_ORIGIN`.
+1. Con cada push a `main`, GitHub Actions (`.github/workflows/docker.yml`) construye la imagen,
+   prueba que levante y la publica en GitHub Container Registry como `ghcr.io/tankez0r/nogalina`.
+2. En el servidor, un cron revisa cada 20 minutos si hay un commit nuevo en `main`. Si lo hay,
+   baja la imagen nueva y recrea solo el contenedor de la app. La base no se toca y los datos
+   quedan guardados en el servidor.
 
-Para actualizar después de un cambio en el código alcanza con repetir el paso 3. Los datos de
-la base quedan guardados en un volumen de Docker, así que no se pierden.
+En el servidor no está el código, solo `docker-compose.yml`, `.env` y `sql/schema.sql`. El código
+viene dentro de la imagen.
+
+Pasos para volver a desplegar desde cero:
+
+1. Tener Docker en el servidor y hacer `docker login ghcr.io` con una cuenta que tenga acceso al
+   paquete, porque la imagen es privada.
+2. Copiar `docker-compose.yml` y `sql/schema.sql`. En `docker-compose.yml` cambiar `build: .` por
+   `image: ghcr.io/tankez0r/nogalina:latest`.
+3. Armar el `.env` a partir de `.env.example` con `APP_ENV=production`, `DB_HOST` con el nombre
+   del servicio de MySQL, `ALLOWED_ORIGIN=https://mu-chilecito.playit.plus` y contraseñas nuevas
+   para la base.
+4. `docker compose up -d`. La primera vez MySQL ejecuta solo `sql/schema.sql` y crea las tablas.
+5. En nginx, mandar `/nogalina/` al puerto de la app y redirigir `/nogalina` a `/nogalina/`. Las
+   rutas de la app son relativas, así que sin la barra final no cargan los estilos ni la API.
+6. Para que se actualice sola, programar en cron un script que haga `docker compose pull web` y
+   `docker compose up -d web` cuando haya una imagen nueva.
 
 ## Ventas
 
@@ -147,8 +161,11 @@ historial.
 ## Limitaciones conocidas
 
 - No hay login, cualquiera puede usar el CRUD.
-- La app depende de que la PC servidor esté prendida y con internet. Si se corta la luz o
-  la conexión, la app no responde hasta que vuelva.
+- La app depende de que el servidor esté prendido y con internet. Si se corta la luz o la
+  conexión, la app no responde hasta que vuelva.
+- Un cambio subido a `main` puede tardar hasta unos 20 minutos, más lo que tarda GitHub
+  Actions, en verse en la URL pública. Si la actualización falla no se vuelve atrás sola: queda
+  anotado en el servidor y hay que hacerlo a mano.
 - El aviso de stock bajo solo se manda al crear o editar un producto o al registrar una
   venta. No hay un chequeo periódico.
 - El clima se pide una vez al abrir la página, no se actualiza solo.
@@ -160,6 +177,6 @@ Cada uno hizo sus partes en commits separados:
 | Integrante | Commit | Qué hizo | Fecha |
 |---|---|---|---|
 | Torres, Martin Alberto (tankez0r) | `5d6466f` abm de productos y mapa | estructura del proyecto, `api/config.php`, `api/productos.php`, `api/servicios.php` (Resend), tabla de productos en `sql/schema.sql`, `index.html`, `app.js`, `comun.js`, `styles.css` y el mapa | 14/10/2026 |
-| Torres, Martin Alberto (tankez0r) | `d205ff7` agrego docker | `Dockerfile`, `docker-compose.yml` y el despliegue en la PC con el túnel | 14/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `d205ff7` agrego docker | `Dockerfile`, `docker-compose.yml` y los pasos de despliegue | 14/10/2026 |
 | Torres, Carlos Emanuel (puchito456) | `1f98617` api de ventas | `api/ventas.php` y las tablas `ventas` y `detalle_venta` | 15/10/2026 |
 | Torres, Carlos Emanuel (puchito456) | `0a8025c` pagina de ventas | `ventas.html`, `ventas.js` y el link a ventas en `index.html` | 15/10/2026 |
