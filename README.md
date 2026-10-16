@@ -65,6 +65,8 @@ Si faltan datos o son incorrectos la API responde 422 con el detalle de cada cam
 | MAIL_TO | a quién le llegan los avisos de stock bajo |
 
 Los valores nunca están en el repo. `.env.example` tiene solo los nombres.
+En XAMPP se pueden cargar con `SetEnv` en la configuración de Apache (`httpd.conf`), por
+ejemplo para probar el mail de stock bajo con la clave de Resend.
 
 ## Servicios externos
 
@@ -79,27 +81,9 @@ así que se carga directo en el navegador.
 
 ## Despliegue
 
-La app está en una PC nuestra que hace de servidor, con Docker. Corren dos contenedores:
-uno con PHP 8.2 y Apache (la app) y otro con MySQL 8 (la base). Para que se pueda entrar
-desde internet por HTTPS usamos un túnel que publica el puerto de la app.
-
-Es un modelo parecido a IaaS: nosotros administramos la máquina, Docker, la base y las
-actualizaciones. Lo elegimos porque ya teníamos la PC y el túnel funcionando, y así no
-dependemos de los límites de los planes gratis de las plataformas.
-
-Pasos para volver a desplegar:
-
-1. Tener Docker instalado en la PC.
-2. Copiar `.env.example` a `.env` y completar los valores. `DB_HOST` tiene que ser `db`
-   (el nombre del contenedor de MySQL), `APP_ENV` tiene que ser `production` y `PUERTO` es
-   el puerto de la PC donde va a quedar la app (por defecto 8080).
-3. Desde la carpeta del proyecto: `docker compose up -d --build`
-4. La primera vez MySQL ejecuta solo `sql/schema.sql` y crea las tablas.
-5. Apuntar el túnel al puerto configurado en `PUERTO` y poner la URL pública en
-   `ALLOWED_ORIGIN`.
-
-Para actualizar después de un cambio en el código alcanza con repetir el paso 3. Los datos de
-la base quedan guardados en un volumen de Docker, así que no se pierden.
+Esta rama es la versión para correr en local con XAMPP. La versión desplegada está en la rama
+`main`, que usa Docker en la PC servidor y un túnel para publicarla por HTTPS (los pasos están
+en el README de esa rama).
 
 ## Ventas
 
@@ -117,8 +101,6 @@ historial.
 ## Limitaciones conocidas
 
 - No hay login, cualquiera puede usar el CRUD.
-- La app depende de que la PC servidor esté prendida y con internet. Si se corta la luz o
-  la conexión, la app no responde hasta que vuelva.
 - El aviso de stock bajo solo se manda al crear o editar un producto o al registrar una
   venta. No hay un chequeo periódico.
 
