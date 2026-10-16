@@ -180,3 +180,6 @@ Cada uno hizo sus partes en commits separados:
 | Torres, Martin Alberto (tankez0r) | `d205ff7` agrego docker | `Dockerfile`, `docker-compose.yml` y los pasos de despliegue | 14/10/2026 |
 | Torres, Carlos Emanuel (puchito456) | `1f98617` api de ventas | `api/ventas.php` y las tablas `ventas` y `detalle_venta` | 15/10/2026 |
 | Torres, Carlos Emanuel (puchito456) | `0a8025c` pagina de ventas | `ventas.html`, `ventas.js` y el link a ventas en `index.html` | 15/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `b2c83d9`, `f673fba`, `37cce5d` clima | clima de Famatina con Open-Meteo, la tarjeta y su lugar en el encabezado | 16/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `40acfde` adapto la web para celular | estilos para pantallas chicas y las tablas como tarjetas en `app.js` y `ventas.js` | 16/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `218e125` workflow para publicar la imagen en ghcr | `.github/workflows/docker.yml` y la sección de Despliegue | 16/10/2026 |
