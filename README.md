@@ -116,3 +116,6 @@ Cada uno hizo sus partes en commits separados:
 | Torres, Martin Alberto (tankez0r) | `d205ff7` agrego docker | `Dockerfile`, `docker-compose.yml` y los pasos de despliegue | 14/10/2026 |
 | Torres, Carlos Emanuel (puchito456) | `1f98617` api de ventas | `api/ventas.php` y las tablas `ventas` y `detalle_venta` | 15/10/2026 |
 | Torres, Carlos Emanuel (puchito456) | `0a8025c` pagina de ventas | `ventas.html`, `ventas.js` y el link a ventas en `index.html` | 15/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `f5f3523` version para xampp | esta rama, sin los archivos de Docker y con el README para XAMPP | 16/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `d0e35d7`, `9fe6cca`, `722ddfe` clima | clima de Famatina con Open-Meteo, la tarjeta y su lugar en el encabezado | 16/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `1f7fd58` adapto la web para celular | estilos para pantallas chicas y las tablas como tarjetas en `app.js` y `ventas.js` | 16/10/2026 |
