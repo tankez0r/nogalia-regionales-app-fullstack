@@ -31,6 +31,9 @@ CREATE TABLE IF NOT EXISTS detalle_venta (
   cantidad INT UNSIGNED NOT NULL,
   precio_unitario DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (id),
+  -- Si se borra una venta se borran también sus detalles (CASCADE). Si se borra un producto, el
+  -- detalle queda con producto_id en null (SET NULL) y el historial no se pierde porque ya tiene
+  -- guardado el nombre.
   FOREIGN KEY (venta_id) REFERENCES ventas(id) ON DELETE CASCADE,
   FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
