@@ -54,9 +54,21 @@ function enviarEmail($asunto, $html)
 // falta. Lo hicimos así, en lugar de devolver un boolean, para que productos.php y ventas.php puedan
 // poner ese texto directamente en el campo advertencia de la respuesta. El frontend lo muestra sin
 // tener que armar el mensaje.
-function avisarStockBajo($nombre, $stock, $minimo)
+function avisarStockBajo($pdo, $productoId, $nombre, $stock, $minimo)
 {
     if ($stock > $minimo) {
+        return null;
+    }
+
+    // La notificación se guarda siempre en la base, así queda un registro de cada vez que un producto
+    // llegó al mínimo. Se muestra en la página de productos hasta que se marca como leída.
+    $mensaje = 'Stock bajo: ' . $nombre . '. Quedan ' . $stock . ' (el mínimo es ' . $minimo . ')';
+    $stmt = $pdo->prepare('INSERT INTO notificaciones (producto_id, mensaje) VALUES (?, ?)');
+    $stmt->execute([$productoId, $mensaje]);
+
+    // El mail es opcional. Si no está la clave de Resend no se intenta mandar y tampoco se devuelve
+    // advertencia, porque el aviso ya quedó guardado en las notificaciones.
+    if (!getenv('RESEND_API_KEY') || !getenv('MAIL_TO')) {
         return null;
     }
 

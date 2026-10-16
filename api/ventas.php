@@ -111,7 +111,7 @@ try {
         $advertencias = [];
         foreach ($vendidos as $v) {
             $stockNuevo = $v['producto']['stock'] - $v['cantidad'];
-            $aviso = avisarStockBajo($v['producto']['nombre'], $stockNuevo, $v['producto']['stock_minimo']);
+            $aviso = avisarStockBajo($pdo, $v['producto']['id'], $v['producto']['nombre'], $stockNuevo, $v['producto']['stock_minimo']);
             if ($aviso) {
                 $advertencias[] = $v['producto']['nombre'] . ': ' . $aviso;
             }

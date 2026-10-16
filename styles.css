@@ -82,6 +82,26 @@ th, td { padding: 0.5rem; border-bottom: 1px solid #e2ddd2; text-align: left; }
 
 #mapa { height: 300px; border-radius: 8px; }
 
+.notificaciones h2 { margin-top: 0; }
+.notificaciones ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.notificaciones li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff8e1;
+  border-left: 4px solid var(--tierra);
+  border-radius: 6px;
+}
+.notificaciones small { color: #6b6255; margin-right: 0.5rem; }
+
 .clima {
   display: flex;
   align-items: center;
@@ -123,6 +143,8 @@ th, td { padding: 0.5rem; border-bottom: 1px solid #e2ddd2; text-align: left; }
   .filtros input[type="text"],
   .filtros select { flex: 1 1 100%; }
   .filtros input[type="number"] { flex: 1; min-width: 0; }
+
+  .notificaciones li { flex-direction: column; align-items: stretch; }
 
   .panel form { grid-template-columns: 1fr; }
   .botones button { flex: 1; }

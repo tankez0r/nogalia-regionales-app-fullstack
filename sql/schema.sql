@@ -38,6 +38,16 @@ CREATE TABLE IF NOT EXISTS detalle_venta (
   FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS notificaciones (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  producto_id INT UNSIGNED NULL,
+  mensaje VARCHAR(255) NOT NULL,
+  leida TINYINT(1) NOT NULL DEFAULT 0,
+  fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 INSERT INTO productos (nombre, categoria, precio, stock, stock_minimo, unidad, descripcion, origen) VALUES
 ('Miel de la sierra', 'Miel', 2500.00, 12, 5, 'kg', 'Miel pura de la zona', 'Famatina'),
 ('Nueces peladas', 'Frutos secos', 4200.00, 8, 3, 'kg', 'Nueces de la cosecha', 'Famatina'),

@@ -1,9 +1,11 @@
 const API = 'api/productos.php';
+const API_NOTIFICACIONES = 'api/notificaciones.php';
 
 let productos = [];
 
 document.addEventListener('DOMContentLoaded', function () {
   cargarProductos();
+  cargarNotificaciones();
   cargarMapa();
   cargarClima();
 
@@ -120,6 +122,7 @@ async function guardarProducto(ev) {
     if (cuerpo.advertencia) mostrarMensaje('Aviso: ' + cuerpo.advertencia, true);
     limpiarFormulario();
     cargarProductos();
+    cargarNotificaciones();
   } catch (e) {
     mostrarMensaje('No se pudo conectar con el servidor', true);
   }
@@ -137,6 +140,49 @@ async function borrarProducto(id) {
     }
     mostrarMensaje('Producto borrado', false);
     cargarProductos();
+  } catch (e) {
+    mostrarMensaje('No se pudo conectar con el servidor', true);
+  }
+}
+
+async function cargarNotificaciones() {
+  const lista = document.getElementById('lista-notificaciones');
+
+  try {
+    const res = await fetch(API_NOTIFICACIONES + '?no_leidas=1');
+    if (!res.ok) {
+      lista.innerHTML = '<li>No se pudieron cargar las notificaciones.</li>';
+      return;
+    }
+    const notificaciones = await res.json();
+
+    if (notificaciones.length === 0) {
+      lista.innerHTML = '<li>No hay notificaciones nuevas.</li>';
+      return;
+    }
+
+    lista.innerHTML = '';
+    for (const n of notificaciones) {
+      const item = document.createElement('li');
+      item.innerHTML = `
+        <span><small>${escapar(n.fecha)}</small> ${escapar(n.mensaje)}</span>
+        <button type="button" onclick="marcarLeida(${n.id})">Marcar como leída</button>`;
+      lista.appendChild(item);
+    }
+  } catch (e) {
+    lista.innerHTML = '<li>No se pudo conectar con el servidor.</li>';
+  }
+}
+
+async function marcarLeida(id) {
+  try {
+    const res = await fetch(API_NOTIFICACIONES + '?id=' + id, { method: 'PUT' });
+    if (!res.ok) {
+      const cuerpo = await res.json();
+      mostrarMensaje(textoError(cuerpo, 'No se pudo marcar la notificación'), true);
+      return;
+    }
+    cargarNotificaciones();
   } catch (e) {
     mostrarMensaje('No se pudo conectar con el servidor', true);
   }
