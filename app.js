@@ -46,7 +46,6 @@ function mostrarTabla() {
 
   for (const p of productos) {
     const fila = document.createElement('tr');
-    // se marca en rojo si llegó al stock mínimo
     if (Number(p.stock) <= Number(p.stock_minimo)) {
       fila.className = 'bajo-stock';
     }
@@ -97,7 +96,6 @@ async function guardarProducto(ev) {
     descripcion: document.getElementById('descripcion').value.trim(),
   };
 
-  // si hay id estamos editando, si no es un producto nuevo
   const metodo = id ? 'PUT' : 'POST';
   const url = id ? API + '?id=' + id : API;
 
@@ -146,9 +144,7 @@ function limpiarFormulario() {
   document.getElementById('form-titulo').textContent = 'Nuevo producto';
 }
 
-// Mapa con la ubicación de la tienda (Leaflet + OpenStreetMap)
 function cargarMapa() {
-  // si la librería no cargó (sin internet o el CDN caído) avisamos y el resto de la página sigue andando
   if (typeof L === 'undefined') {
     document.getElementById('mapa').textContent = 'No se pudo cargar el mapa.';
     return;

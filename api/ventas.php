@@ -9,7 +9,6 @@ if ($id !== null && !ctype_digit($id)) {
     responder(['error' => 'El id no es válido'], 400);
 }
 
-// trae una venta con los productos que se vendieron
 function buscarVenta($pdo, $id)
 {
     $stmt = $pdo->prepare('SELECT * FROM ventas WHERE id = ?');
@@ -63,7 +62,6 @@ try {
             }
         }
 
-        // todo va en una transacción: si un producto no tiene stock no se guarda nada
         $pdo->beginTransaction();
         $total = 0;
         $vendidos = [];
@@ -80,7 +78,6 @@ try {
                 responder(['error' => 'Datos inválidos', 'detalle' => ['items' => 'No existe el producto ' . $productoId]], 422);
             }
 
-            // el AND stock >= ? evita que el stock quede negativo
             $stmt = $pdo->prepare('UPDATE productos SET stock = stock - ? WHERE id = ? AND stock >= ?');
             $stmt->execute([$cantidad, $productoId, $cantidad]);
             if ($stmt->rowCount() === 0) {
@@ -106,7 +103,6 @@ try {
 
         $pdo->commit();
 
-        // los avisos van después del commit, si el mail falla la venta ya quedó guardada
         $advertencias = [];
         foreach ($vendidos as $v) {
             $stockNuevo = $v['producto']['stock'] - $v['cantidad'];
@@ -123,7 +119,6 @@ try {
         responder($respuesta, 201);
     }
 
-    // PUT sirve para anular una venta: se devuelve el stock y la venta queda como "anulada"
     if ($metodo === 'PUT') {
         if ($id === null) {
             responder(['error' => 'Falta el id de la venta'], 400);
@@ -139,7 +134,6 @@ try {
         $pdo->beginTransaction();
         $stmt = $pdo->prepare('UPDATE productos SET stock = stock + ? WHERE id = ?');
         foreach ($venta['items'] as $item) {
-            // si el producto se borró después de la venta no hay a dónde devolver el stock
             if ($item['producto_id'] !== null) {
                 $stmt->execute([$item['cantidad'], $item['producto_id']]);
             }

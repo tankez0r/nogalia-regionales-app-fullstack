@@ -1,6 +1,4 @@
 <?php
-// Configuración de la app. Todo sale de variables de entorno (getenv).
-// Si no están definidas se usan los valores por defecto de XAMPP para poder probar en local.
 
 $entorno = getenv('APP_ENV') ?: 'local';
 
@@ -11,7 +9,6 @@ if ($entorno === 'production') {
 }
 error_reporting(E_ALL);
 
-// CORS: solo se habilita el origen que esté configurado, nunca "*"
 $origenPermitido = getenv('ALLOWED_ORIGIN');
 if ($origenPermitido) {
     header('Access-Control-Allow-Origin: ' . $origenPermitido);

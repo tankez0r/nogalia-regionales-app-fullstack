@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('btn-registrar').addEventListener('click', registrarVenta);
 });
 
-// llena el select con los productos para elegir
 async function cargarProductos() {
   try {
     const res = await fetch(API_PRODUCTOS);
@@ -92,7 +91,6 @@ function mostrarCarrito() {
   document.getElementById('total').textContent = '$' + total.toFixed(2);
 }
 
-// el stock lo controla el backend, si no alcanza devuelve 422 y mostramos el error
 async function registrarVenta() {
   if (carrito.length === 0) {
     mostrarMensaje('El carrito está vacío', true);

@@ -39,7 +39,6 @@ function validarProducto($d)
     return $errores;
 }
 
-// arma los parámetros para el INSERT y el UPDATE
 function datosProducto($d)
 {
     return [
@@ -66,7 +65,6 @@ try {
             responder($producto);
         }
 
-        // listado con filtros opcionales
         $sql = 'SELECT * FROM productos WHERE 1 = 1';
         $parametros = [];
 

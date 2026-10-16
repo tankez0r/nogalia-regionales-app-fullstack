@@ -1,7 +1,3 @@
--- Base de datos de Nogalina Regionales
--- Se puede correr entero desde phpMyAdmin (pestaña SQL) o con:
---   mysql -u root -p < sql/schema.sql
-
 CREATE DATABASE IF NOT EXISTS nogalina CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE nogalina;
 
@@ -19,7 +15,6 @@ CREATE TABLE IF NOT EXISTS productos (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- cabecera de cada venta
 CREATE TABLE IF NOT EXISTS ventas (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -28,8 +23,6 @@ CREATE TABLE IF NOT EXISTS ventas (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- productos de cada venta. Guardamos el nombre y el precio del momento
--- para que el historial no cambie si después se edita o se borra el producto.
 CREATE TABLE IF NOT EXISTS detalle_venta (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   venta_id INT UNSIGNED NOT NULL,
@@ -42,7 +35,6 @@ CREATE TABLE IF NOT EXISTS detalle_venta (
   FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- algunos productos de ejemplo
 INSERT INTO productos (nombre, categoria, precio, stock, stock_minimo, unidad, descripcion, origen) VALUES
 ('Miel de la sierra', 'Miel', 2500.00, 12, 5, 'kg', 'Miel pura de la zona', 'Famatina'),
 ('Nueces peladas', 'Frutos secos', 4200.00, 8, 3, 'kg', 'Nueces de la cosecha', 'Famatina'),

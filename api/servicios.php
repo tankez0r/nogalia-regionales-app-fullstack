@@ -1,13 +1,10 @@
 <?php
-// Servicios externos que se llaman desde el backend.
-// Por ahora es solo el envío de mails con Resend (el mapa se carga desde el navegador).
 
 function enviarEmail($asunto, $html)
 {
     $apiKey = getenv('RESEND_API_KEY');
     $destino = getenv('MAIL_TO');
 
-    // sin clave o sin destinatario no intentamos mandar nada
     if (!$apiKey || !$destino) {
         return false;
     }
@@ -36,9 +33,6 @@ function enviarEmail($asunto, $html)
     return $respuesta !== false && $codigo >= 200 && $codigo < 300;
 }
 
-// Si el stock quedó en el mínimo o por debajo manda un aviso por mail.
-// Devuelve null si está todo bien o un texto de advertencia si el mail no salió.
-// Nunca corta la operación principal: si Resend falla, el producto se guarda igual.
 function avisarStockBajo($nombre, $stock, $minimo)
 {
     if ($stock > $minimo) {
