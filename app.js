@@ -165,7 +165,7 @@ function cargarMapa() {
 async function cargarClima() {
   const caja = document.getElementById('clima');
   const url = 'https://api.open-meteo.com/v1/forecast?latitude=-28.9167&longitude=-67.5167'
-    + '&current=temperature_2m,weather_code,wind_speed_10m'
+    + '&current=temperature_2m,weather_code,wind_speed_10m,is_day'
     + '&daily=temperature_2m_max,temperature_2m_min'
     + '&timezone=America%2FArgentina%2FLa_Rioja&forecast_days=1';
 
@@ -177,25 +177,33 @@ async function cargarClima() {
     }
     const datos = await res.json();
     const actual = datos.current;
-    caja.textContent = descripcionClima(actual.weather_code)
-      + ', ' + Math.round(actual.temperature_2m) + ' °C'
-      + ' (mín. ' + Math.round(datos.daily.temperature_2m_min[0]) + ' °C'
-      + ', máx. ' + Math.round(datos.daily.temperature_2m_max[0]) + ' °C)'
-      + '. Viento ' + Math.round(actual.wind_speed_10m) + ' km/h.';
+    const clima = descripcionClima(actual.weather_code, actual.is_day === 1);
+
+    caja.innerHTML = `
+      <span class="clima-icono">${clima.icono}</span>
+      <div>
+        <div class="clima-temp">${Math.round(actual.temperature_2m)} °C</div>
+        <div>${clima.texto}</div>
+        <div class="clima-detalle">
+          Mín. ${Math.round(datos.daily.temperature_2m_min[0])} °C ·
+          Máx. ${Math.round(datos.daily.temperature_2m_max[0])} °C ·
+          Viento ${Math.round(actual.wind_speed_10m)} km/h
+        </div>
+      </div>`;
   } catch (e) {
     caja.textContent = 'No se pudo cargar el clima.';
   }
 }
 
-function descripcionClima(codigo) {
-  if (codigo === 0) return 'Despejado';
-  if (codigo <= 2) return 'Parcialmente nublado';
-  if (codigo === 3) return 'Nublado';
-  if (codigo <= 48) return 'Niebla';
-  if (codigo <= 57) return 'Llovizna';
-  if (codigo <= 67) return 'Lluvia';
-  if (codigo <= 77) return 'Nieve';
-  if (codigo <= 82) return 'Chaparrones';
-  if (codigo <= 86) return 'Nevadas';
-  return 'Tormenta';
+function descripcionClima(codigo, esDeDia) {
+  if (codigo === 0) return { texto: 'Despejado', icono: esDeDia ? '☀️' : '🌙' };
+  if (codigo <= 2) return { texto: 'Parcialmente nublado', icono: esDeDia ? '⛅' : '☁️' };
+  if (codigo === 3) return { texto: 'Nublado', icono: '☁️' };
+  if (codigo <= 48) return { texto: 'Niebla', icono: '🌫️' };
+  if (codigo <= 57) return { texto: 'Llovizna', icono: '🌦️' };
+  if (codigo <= 67) return { texto: 'Lluvia', icono: '🌧️' };
+  if (codigo <= 77) return { texto: 'Nieve', icono: '❄️' };
+  if (codigo <= 82) return { texto: 'Chaparrones', icono: '🌧️' };
+  if (codigo <= 86) return { texto: 'Nevadas', icono: '🌨️' };
+  return { texto: 'Tormenta', icono: '⛈️' };
 }
