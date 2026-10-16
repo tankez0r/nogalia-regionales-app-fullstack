@@ -7,7 +7,9 @@ TP Integrador N.º 1 de Aplicaciones Móviles y Cloud Computing.
 - API: https://REEMPLAZAR-CON-LA-URL/api/productos.php
 - Integrantes: Torres, Martin Alberto y Torres, Carlos Emanuel
 
-## Cómo correrla en local (XAMPP)
+## Cómo correrla en local
+
+### Con XAMPP
 
 1. Copiar la carpeta `nogalina-regionales` dentro de `C:\xampp\htdocs`.
 2. Prender Apache y MySQL desde el panel de XAMPP.
@@ -19,6 +21,33 @@ TP Integrador N.º 1 de Aplicaciones Móviles y Cloud Computing.
 En local no hace falta configurar nada: si no hay variables de entorno, `api/config.php` usa
 los datos por defecto de XAMPP (usuario `root` sin contraseña). El mail de stock bajo no se
 manda porque no está la clave de Resend, pero el resto funciona igual.
+
+### Con Docker
+
+1. Instalar Docker Desktop y dejarlo abierto.
+2. En la carpeta del proyecto copiar `.env.example` a `.env` y completarlo, por ejemplo:
+   ```
+   APP_ENV=local
+   PUERTO=8080
+   DB_HOST=db
+   DB_PORT=3306
+   DB_NAME=nogalina
+   DB_USER=nogalina
+   DB_PASS=una_contraseña
+   MYSQL_ROOT_PASSWORD=otra_contraseña
+   ALLOWED_ORIGIN=http://localhost:8080
+   ```
+   `DB_NAME` tiene que ser `nogalina` porque es la base que crea `sql/schema.sql`. `RESEND_API_KEY`
+   y `MAIL_TO` se pueden dejar vacías si no se quiere probar el mail.
+3. Levantar los contenedores: `docker compose up -d --build`
+4. Abrir `http://localhost:8080` (o el puerto que se haya puesto en `PUERTO`). La primera vez
+   MySQL tarda unos segundos en crear la base; si aparece un error al cargar los productos,
+   esperar un poco y recargar.
+5. Para apagarla: `docker compose down`. Con `docker compose down -v` también se borra la base,
+   y la próxima vez se vuelve a crear con los productos de ejemplo.
+
+Si se cambia algo del código hay que repetir el paso 3, porque los archivos se copian dentro de
+la imagen al construirla.
 
 ### Carpetas
 
