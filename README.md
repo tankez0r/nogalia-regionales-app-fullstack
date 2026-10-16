@@ -73,7 +73,7 @@ app.js, ventas.js, comun.js, styles.css
 | GET | `api/ventas.php?id=1` | id | una venta con sus productos | 200, 400, 404, 500 |
 | POST | `api/ventas.php` | JSON `{items: [{producto_id, cantidad}]}` | `{venta}` | 201, 400, 422, 500 |
 | PUT | `api/ventas.php?id=1` | id | anula la venta y devuelve `{venta}` | 200, 400, 404, 409, 500 |
-| GET | `api/notificaciones.php` | `?no_leidas=1` (opcional) | lista de notificaciones | 200, 500 |
+| GET | `api/notificaciones.php` | `?no_leidas=1`, `?recientes=1` (últimas 24 horas), opcionales | lista de notificaciones | 200, 500 |
 | PUT | `api/notificaciones.php?id=1` | id | la marca como leída y devuelve `{notificacion}` | 200, 400, 404, 500 |
 
 Ejemplo de JSON para crear o editar un producto:
@@ -196,4 +196,4 @@ Cada uno hizo sus partes en commits separados:
 | Torres, Martin Alberto (tankez0r) | `b2c83d9`, `f673fba`, `37cce5d` clima | clima de Famatina con Open-Meteo, la tarjeta y su lugar en el encabezado | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `40acfde` adapto la web para celular | estilos para pantallas chicas y las tablas como tarjetas en `app.js` y `ventas.js` | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `218e125` workflow para publicar la imagen en ghcr | `.github/workflows/docker.yml` y la sección de Despliegue | 16/10/2026 |
-| Torres, Martin Alberto (tankez0r) | `d4fc772` notificaciones de stock bajo | tabla `notificaciones`, `api/notificaciones.php`, el aviso en `api/servicios.php` y la sección en `index.html` | 16/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `d4fc772`, `d31dbf6` notificaciones de stock bajo | tabla `notificaciones`, `api/notificaciones.php`, el aviso en `api/servicios.php`, la sección en `index.html` y la opción de ver todas | 16/10/2026 |
