@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ventas | Nogalina Regionales</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Ventas</h1>
+    <p>Nogalina Regionales - <a href="index.html">Volver a productos</a></p>
+  </header>
+
+  <main>
+    <section id="mensajes" aria-live="polite"></section>
+
+    <section class="panel">
+      <h2>Nueva venta</h2>
+      <div class="filtros">
+        <select id="producto-select"></select>
+        <input id="cantidad" type="number" min="1" placeholder="Cantidad">
+        <button type="button" id="btn-agregar">Agregar</button>
+      </div>
+      <table>
+        <thead>
+          <tr><th>Producto</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th><th></th></tr>
+        </thead>
+        <tbody id="cuerpo-carrito"></tbody>
+      </table>
+      <p>Total: <strong id="total">$0.00</strong></p>
+      <button type="button" id="btn-registrar">Registrar venta</button>
+    </section>
+
+    <section class="tabla">
+      <h2>Historial</h2>
+      <table>
+        <thead>
+          <tr><th>Fecha</th><th>Total</th><th>Estado</th><th>Productos</th><th>Acciones</th></tr>
+        </thead>
+        <tbody id="cuerpo-ventas"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="comun.js"></script>
+  <script src="ventas.js"></script>
+</body>
+</html>

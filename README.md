@@ -27,7 +27,8 @@ api/          backend en PHP (config.php, productos.php, ventas.php, servicios.p
 sql/          script para crear la base
 img/          imagen de fondo
 index.html    productos (CRUD) y mapa
-app.js, comun.js, styles.css
+ventas.html   registrar ventas e historial
+app.js, ventas.js, comun.js, styles.css
 ```
 
 ## Endpoints de la API
@@ -69,7 +70,7 @@ Los valores nunca están en el repo. `.env.example` tiene solo los nombres.
 
 | Servicio | Quién lo llama | Por qué | Datos que salen | Si falla |
 |---|---|---|---|---|
-| Resend (email) | backend (`api/servicios.php`) | avisar cuando un producto queda con stock bajo | nombre del producto y cantidades, a `MAIL_TO` | el producto se guarda igual y la API devuelve `advertencia` |
+| Resend (email) | backend (`api/servicios.php`) | avisar cuando un producto queda con stock bajo | nombre del producto y cantidades, a `MAIL_TO` | el producto o la venta se guardan igual y la API devuelve `advertencia` |
 | Leaflet + OpenStreetMap (mapa) | navegador (`app.js`) | mostrar dónde está la tienda | ningún dato de la app, solo se piden los mapas de la zona | se muestra "No se pudo cargar el mapa" y el resto de la página funciona |
 
 Resend lo llamamos desde el backend porque necesita la API key, y si lo hiciéramos desde el
@@ -100,13 +101,26 @@ Pasos para volver a desplegar:
 Para actualizar después de un cambio en el código alcanza con repetir el paso 3. Los datos de
 la base quedan guardados en un volumen de Docker, así que no se pierden.
 
+## Ventas
+
+En `ventas.html` se arma una venta con varios productos (tipo carrito) y abajo se ve el
+historial.
+
+- Al registrar la venta se descuenta el stock dentro de una transacción. Si algún producto
+  no tiene stock suficiente se cancela toda la venta.
+- Cada item guarda el nombre y el precio que tenía el producto en ese momento, así el
+  historial no cambia si después se edita o se borra el producto.
+- Una venta se puede anular: vuelve el stock pero la venta queda en el historial.
+- Si después de una venta algún producto queda en el mínimo o por debajo, se manda el aviso
+  por mail igual que al crear o editar un producto.
+
 ## Limitaciones conocidas
 
 - No hay login, cualquiera puede usar el CRUD.
 - La app depende de que la PC servidor esté prendida y con internet. Si se corta la luz o
   la conexión, la app no responde hasta que vuelva.
-- El aviso de stock bajo solo se manda al crear o editar un producto. No hay un chequeo
-  periódico.
+- El aviso de stock bajo solo se manda al crear o editar un producto o al registrar una
+  venta. No hay un chequeo periódico.
 
 ## Aportes
 
