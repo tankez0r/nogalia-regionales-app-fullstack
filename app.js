@@ -6,13 +6,16 @@ let verTodasNotificaciones = false;
 
 document.addEventListener('DOMContentLoaded', function () {
   cargarProductos();
-  cargarNotificaciones();
+  cargarContador();
   cargarMapa();
   cargarClima();
 
   document.getElementById('form-producto').addEventListener('submit', guardarProducto);
   document.getElementById('btn-cancelar').addEventListener('click', limpiarFormulario);
   document.getElementById('btn-ver-notificaciones').addEventListener('click', cambiarVistaNotificaciones);
+  document.getElementById('notificaciones').addEventListener('toggle', function () {
+    if (this.open) cargarNotificaciones();
+  });
   document.getElementById('filtro-categoria').addEventListener('input', cargarProductos);
   document.getElementById('filtro-q').addEventListener('input', cargarProductos);
   document.getElementById('filtro-bajo').addEventListener('change', cargarProductos);
@@ -124,7 +127,7 @@ async function guardarProducto(ev) {
     if (cuerpo.advertencia) mostrarMensaje('Aviso: ' + cuerpo.advertencia, true);
     limpiarFormulario();
     cargarProductos();
-    cargarNotificaciones();
+    actualizarNotificaciones();
   } catch (e) {
     mostrarMensaje('No se pudo conectar con el servidor', true);
   }
@@ -145,6 +148,32 @@ async function borrarProducto(id) {
   } catch (e) {
     mostrarMensaje('No se pudo conectar con el servidor', true);
   }
+}
+
+// La sección de notificaciones empieza cerrada y la lista se pide recién cuando se abre. Mientras
+// tanto solo se cuenta cuántas nuevas hay, para mostrarlo en el título.
+async function cargarContador() {
+  const resumen = document.getElementById('resumen-notificaciones');
+
+  try {
+    const res = await fetch(API_NOTIFICACIONES + '?no_leidas=1&recientes=1');
+    if (!res.ok) {
+      resumen.textContent = 'Notificaciones';
+      return;
+    }
+    const nuevas = (await res.json()).length;
+    resumen.textContent = nuevas === 0
+      ? 'Notificaciones'
+      : 'Notificaciones (' + nuevas + (nuevas === 1 ? ' nueva)' : ' nuevas)');
+    resumen.classList.toggle('hay-nuevas', nuevas > 0);
+  } catch (e) {
+    resumen.textContent = 'Notificaciones';
+  }
+}
+
+function actualizarNotificaciones() {
+  cargarContador();
+  if (document.getElementById('notificaciones').open) cargarNotificaciones();
 }
 
 function cambiarVistaNotificaciones() {
@@ -201,7 +230,7 @@ async function marcarLeida(id) {
       mostrarMensaje(textoError(cuerpo, 'No se pudo marcar la notificación'), true);
       return;
     }
-    cargarNotificaciones();
+    actualizarNotificaciones();
   } catch (e) {
     mostrarMensaje('No se pudo conectar con el servidor', true);
   }
