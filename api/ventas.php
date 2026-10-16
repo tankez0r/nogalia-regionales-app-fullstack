@@ -62,6 +62,8 @@ try {
             }
         }
 
+        // beginTransaction() hace que todos los cambios de la venta se apliquen juntos o no se aplique
+        // a ninguno.
         $pdo->beginTransaction();
         $total = 0;
         $vendidos = [];
@@ -96,6 +98,7 @@ try {
         $stmt->execute([$total]);
         $ventaId = $pdo->lastInsertId();
 
+        // Nombre y precio del momento.
         $stmt = $pdo->prepare('INSERT INTO detalle_venta (venta_id, producto_id, producto_nombre, cantidad, precio_unitario) VALUES (?, ?, ?, ?, ?)');
         foreach ($vendidos as $v) {
             $stmt->execute([$ventaId, $v['producto']['id'], $v['producto']['nombre'], $v['cantidad'], $v['producto']['precio']]);
@@ -103,6 +106,8 @@ try {
 
         $pdo->commit();
 
+        // La venta ya queda confirmada antes de mandar los mails. Así la transacción no queda abierta
+        // esperando a Resend. Y si falla el mail no deshace la venta.
         $advertencias = [];
         foreach ($vendidos as $v) {
             $stockNuevo = $v['producto']['stock'] - $v['cantidad'];
@@ -127,6 +132,8 @@ try {
         if (!$venta) {
             responder(['error' => 'Venta no encontrada'], 404);
         }
+        // Si la venta ya estaba anulada, se responde 409 Conflict: el pedido está bien hecho, pero
+        // choca con el estado actual. Esto evita devolver el stock dos veces.
         if ($venta['estado'] === 'anulada') {
             responder(['error' => 'La venta ya estaba anulada'], 409);
         }
