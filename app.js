@@ -2,6 +2,7 @@ const API = 'api/productos.php';
 const API_NOTIFICACIONES = 'api/notificaciones.php';
 
 let productos = [];
+let verTodasNotificaciones = false;
 
 document.addEventListener('DOMContentLoaded', function () {
   cargarProductos();
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('form-producto').addEventListener('submit', guardarProducto);
   document.getElementById('btn-cancelar').addEventListener('click', limpiarFormulario);
+  document.getElementById('btn-ver-notificaciones').addEventListener('click', cambiarVistaNotificaciones);
   document.getElementById('filtro-categoria').addEventListener('input', cargarProductos);
   document.getElementById('filtro-q').addEventListener('input', cargarProductos);
   document.getElementById('filtro-bajo').addEventListener('change', cargarProductos);
@@ -145,11 +147,22 @@ async function borrarProducto(id) {
   }
 }
 
+function cambiarVistaNotificaciones() {
+  verTodasNotificaciones = !verTodasNotificaciones;
+  document.getElementById('btn-ver-notificaciones').textContent = verTodasNotificaciones
+    ? 'Ver solo las recientes'
+    : 'Ver todas las notificaciones';
+  cargarNotificaciones();
+}
+
+// Por defecto se muestran solo las no leídas de las últimas 24 horas. Con "Ver todas las
+// notificaciones" se piden todas, también las leídas, para ver el registro completo.
 async function cargarNotificaciones() {
   const lista = document.getElementById('lista-notificaciones');
+  const url = verTodasNotificaciones ? API_NOTIFICACIONES : API_NOTIFICACIONES + '?no_leidas=1&recientes=1';
 
   try {
-    const res = await fetch(API_NOTIFICACIONES + '?no_leidas=1');
+    const res = await fetch(url);
     if (!res.ok) {
       lista.innerHTML = '<li>No se pudieron cargar las notificaciones.</li>';
       return;
@@ -157,16 +170,22 @@ async function cargarNotificaciones() {
     const notificaciones = await res.json();
 
     if (notificaciones.length === 0) {
-      lista.innerHTML = '<li>No hay notificaciones nuevas.</li>';
+      lista.innerHTML = verTodasNotificaciones
+        ? '<li>Todavía no hay notificaciones.</li>'
+        : '<li>No hay notificaciones nuevas de las últimas 24 horas.</li>';
       return;
     }
 
     lista.innerHTML = '';
     for (const n of notificaciones) {
       const item = document.createElement('li');
+      const leida = Number(n.leida) === 1;
+      if (leida) item.className = 'leida';
       item.innerHTML = `
         <span><small>${escapar(n.fecha)}</small> ${escapar(n.mensaje)}</span>
-        <button type="button" onclick="marcarLeida(${n.id})">Marcar como leída</button>`;
+        ${leida
+          ? '<small>Leída</small>'
+          : `<button type="button" onclick="marcarLeida(${n.id})">Marcar como leída</button>`}`;
       lista.appendChild(item);
     }
   } catch (e) {
