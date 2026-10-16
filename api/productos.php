@@ -113,7 +113,7 @@ try {
 
         // Se guarda aunque el mail falla.
         $respuesta = ['producto' => buscarProducto($pdo, $pdo->lastInsertId())];
-        $aviso = avisarStockBajo(trim($datos['nombre']), (int) $datos['stock'], (int) $datos['stock_minimo']);
+        $aviso = avisarStockBajo($pdo, $respuesta['producto']['id'], trim($datos['nombre']), (int) $datos['stock'], (int) $datos['stock_minimo']);
         if ($aviso) {
             $respuesta['advertencia'] = $aviso;
         }
@@ -141,7 +141,7 @@ try {
         $stmt->execute($parametros);
 
         $respuesta = ['producto' => buscarProducto($pdo, $id)];
-        $aviso = avisarStockBajo(trim($datos['nombre']), (int) $datos['stock'], (int) $datos['stock_minimo']);
+        $aviso = avisarStockBajo($pdo, $id, trim($datos['nombre']), (int) $datos['stock'], (int) $datos['stock_minimo']);
         if ($aviso) {
             $respuesta['advertencia'] = $aviso;
         }
