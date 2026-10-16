@@ -38,6 +38,9 @@ jobs:
           load: true
           tags: nogalina:prueba
 
+      # Antes de publicar la imagen se levanta y se prueba con curl que responda. Si no anda, no se
+      # publica y el servidor no baja una versión rota. Esto con la idea de cumplir el requisito número
+      # 6 de la consigna.
       - name: Probar la imagen
         run: |
           docker run -d --name prueba -p 8080:80 nogalina:prueba
