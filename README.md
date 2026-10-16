@@ -26,7 +26,7 @@ manda porque no está la clave de Resend, pero el resto funciona igual.
 api/          backend en PHP (config.php, productos.php, ventas.php, servicios.php)
 sql/          script para crear la base
 img/          imagen de fondo
-index.html    productos (CRUD) y mapa
+index.html    productos (CRUD), clima y mapa
 ventas.html   registrar ventas e historial
 app.js, ventas.js, comun.js, styles.css
 ```
@@ -72,10 +72,11 @@ Los valores nunca están en el repo. `.env.example` tiene solo los nombres.
 |---|---|---|---|---|
 | Resend (email) | backend (`api/servicios.php`) | avisar cuando un producto queda con stock bajo | nombre del producto y cantidades, a `MAIL_TO` | el producto o la venta se guardan igual y la API devuelve `advertencia` |
 | Leaflet + OpenStreetMap (mapa) | navegador (`app.js`) | mostrar dónde está la tienda | ningún dato de la app, solo se piden los mapas de la zona | se muestra "No se pudo cargar el mapa" y el resto de la página funciona |
+| Open-Meteo (clima) | navegador (`app.js`) | mostrar el clima del día en Famatina | solo las coordenadas de Famatina | se muestra "No se pudo cargar el clima" y el resto de la página funciona |
 
 Resend lo llamamos desde el backend porque necesita la API key, y si lo hiciéramos desde el
-navegador la clave quedaría expuesta. El mapa no necesita clave y no manda datos de la app,
-así que se carga directo en el navegador.
+navegador la clave quedaría expuesta. El mapa y el clima no necesitan clave y no mandan datos
+de la app, así que se cargan directo en el navegador.
 
 ## Despliegue
 
@@ -121,6 +122,7 @@ historial.
   la conexión, la app no responde hasta que vuelva.
 - El aviso de stock bajo solo se manda al crear o editar un producto o al registrar una
   venta. No hay un chequeo periódico.
+- El clima se pide una vez al abrir la página, no se actualiza solo.
 
 ## Aportes
 
