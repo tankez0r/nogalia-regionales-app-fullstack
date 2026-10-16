@@ -163,9 +163,11 @@ historial.
 ## Notificaciones
 
 Cada vez que un producto queda en el mínimo o por debajo se guarda una notificación en la
-tabla `notificaciones`. En `index.html` se ven las que no están leídas, y con "Marcar como leída"
-dejan de mostrarse pero siguen en la base, así queda el registro completo. Si está configurada la
-clave de Resend, además se manda el aviso por mail.
+tabla `notificaciones`. En `index.html` hay una sección que empieza cerrada y en el título muestra
+cuántas nuevas hay. Al abrirla se ven las no leídas de las últimas 24 horas, y con "Ver todas las
+notificaciones" el historial completo, también las leídas. "Marcar como leída" la saca de la vista
+principal pero sigue en la base, así queda el registro completo. Si está configurada la clave de
+Resend, además se manda el aviso por mail.
 
 Si la base se creó antes de que existieran las notificaciones, hay que ejecutar solo el
 `CREATE TABLE notificaciones` de `sql/schema.sql`. Si se ejecuta el script entero se duplican los
@@ -196,4 +198,4 @@ Cada uno hizo sus partes en commits separados:
 | Torres, Martin Alberto (tankez0r) | `b2c83d9`, `f673fba`, `37cce5d` clima | clima de Famatina con Open-Meteo, la tarjeta y su lugar en el encabezado | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `40acfde` adapto la web para celular | estilos para pantallas chicas y las tablas como tarjetas en `app.js` y `ventas.js` | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `218e125` workflow para publicar la imagen en ghcr | `.github/workflows/docker.yml` y la sección de Despliegue | 16/10/2026 |
-| Torres, Martin Alberto (tankez0r) | `d4fc772`, `d31dbf6` notificaciones de stock bajo | tabla `notificaciones`, `api/notificaciones.php`, el aviso en `api/servicios.php`, la sección en `index.html` y la opción de ver todas | 16/10/2026 |
+| Torres, Martin Alberto (tankez0r) | `d4fc772`, `d31dbf6`, `4419e15` notificaciones de stock bajo | tabla `notificaciones`, `api/notificaciones.php`, el aviso en `api/servicios.php`, la sección en `index.html`, la opción de ver todas y la sección desplegable | 16/10/2026 |
