@@ -121,7 +121,25 @@ Es un modelo parecido a IaaS: nosotros administramos la máquina, Docker, la bas
 actualizaciones. Lo elegimos porque ya teníamos el servidor y el dominio funcionando, y así no
 dependemos de los límites de los planes gratis de las plataformas.
 
-Cómo se actualiza:
+### Entorno del servidor
+
+El servidor es una PC que usamos como laboratorio, con Linux Server. La manejamos por SSH: desde
+ahí hacemos los despliegues de las aplicaciones y configuramos nginx a mano, con ayuda de
+inteligencia artificial.
+
+La PC no está expuesta directamente a internet. Para poder entrar desde afuera usamos un túnel de
+[playit.gg](https://playit.gg), que lleva el tráfico desde su dominio hasta el nginx de la PC.
+
+Todas las aplicaciones de la PC están dockerizadas y aisladas unas de otras. Además de esta hay
+otras aplicaciones web que cambian seguido y están en revisión. No las nombramos porque no son
+parte de este trabajo, pero están descritas en general en el anexo del final.
+
+Es lo mismo que tener una instancia elástica en AWS (EC2) u otro host en la nube: una máquina
+entera donde instalamos y configuramos todo nosotros. La diferencia es que no hay un panel de
+administración. Todo se hace por consola, con conocimientos básicos de Linux y medidas de
+seguridad recomendadas por inteligencia artificial.
+
+### Cómo se actualiza
 
 1. Con cada push a `main`, GitHub Actions (`.github/workflows/docker.yml`) construye la imagen,
    prueba que levante y la publica en GitHub Container Registry como `ghcr.io/tankez0r/nogalina`.
@@ -132,7 +150,7 @@ Cómo se actualiza:
 En el servidor no está el código, solo `docker-compose.yml`, `.env` y `sql/schema.sql`. El código
 viene dentro de la imagen.
 
-Pasos para volver a desplegar desde cero:
+### Pasos para volver a desplegar desde cero
 
 1. Tener Docker en el servidor y hacer `docker login ghcr.io` con una cuenta que tenga acceso al
    paquete, porque la imagen es privada.
@@ -199,3 +217,49 @@ Cada uno hizo sus partes en commits separados:
 | Torres, Martin Alberto (tankez0r) | `40acfde` adapto la web para celular | estilos para pantallas chicas y las tablas como tarjetas en `app.js` y `ventas.js` | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `218e125` workflow para publicar la imagen en ghcr | `.github/workflows/docker.yml` y la sección de Despliegue | 16/10/2026 |
 | Torres, Martin Alberto (tankez0r) | `d4fc772`, `d31dbf6`, `4419e15` notificaciones de stock bajo | tabla `notificaciones`, `api/notificaciones.php`, el aviso en `api/servicios.php`, la sección en `index.html`, la opción de ver todas y la sección desplegable | 16/10/2026 |
+
+## Anexo: el resto del servidor
+
+La PC donde corre la app no es exclusiva de este trabajo. Estos son los datos generales, sin
+nombres ni direcciones de las otras aplicaciones.
+
+**La máquina**
+
+- Debian 13 (trixie).
+- Procesador Intel Core i3 de segunda generación (de notebook), con 2 núcleos y 4 hilos.
+- 12 GB de RAM, de los que normalmente se usan unos 4,5 GB.
+- Disco de 106 GB, con un 32 % ocupado.
+- Docker Engine 29.8 y Docker Compose 5.5.
+
+**Las otras aplicaciones**
+
+Además de esta app hay dos proyectos más. Cada uno tiene su propio `docker-compose.yml` y su
+propia red de Docker:
+
+- Un servidor de juego en línea, que es el más grande. Además del juego tiene un panel de
+  administración, una web de registro con su API, un servicio que manda mails, un bot de Discord,
+  una base PostgreSQL con copias automáticas y un servicio que reinicia lo que deja de responder.
+  Está hecho con .NET, Node.js, PostgreSQL y nginx.
+- Una aplicación personal para escuchar audio: un backend en Node.js con una PWA y una base
+  SQLite, todo en un solo contenedor.
+
+Ninguna aplicación comparte su base de datos con otra. Lo que comparten es la máquina y la entrada
+desde internet: un solo túnel de playit.gg y un solo nginx con el certificado de Let's Encrypt,
+donde cada aplicación web tiene su propia ruta del mismo dominio. El juego tiene además túneles
+propios para sus puertos de juego, que no son web. Las bases de datos y los servicios internos no
+se pueden alcanzar desde afuera: solo se llega a ellos desde la red de Docker de su aplicación.
+
+**Cuidados generales**
+
+- Las credenciales están en archivos `.env` que solo puede leer el dueño, nunca en los
+  repositorios.
+- Los contenedores tienen límites de memoria y CPU, y sus logs se rotan para que no llenen el
+  disco.
+- Las imágenes se arman en GitHub Actions y el servidor solo baja imágenes ya probadas, no compila
+  código.
+- La base del juego tiene copias automáticas cada 5 horas. Los datos de esta app quedan en el disco
+  del servidor y no se pierden al recrear los contenedores, y antes de cambiar sus tablas en el
+  servidor se hace una copia manual.
+- Docker arranca con el sistema y los contenedores se reinician solos, así que después de un corte
+  todo vuelve a levantarse sin hacer nada. No hay UPS, por eso un corte de luz deja la app sin
+  responder hasta que vuelve (está en "Limitaciones conocidas").
