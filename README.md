@@ -6,6 +6,7 @@ TP Integrador N.º 1 de Aplicaciones Móviles y Cloud Computing.
 - App: https://mu-chilecito.playit.plus/nogalina/
 - API: https://mu-chilecito.playit.plus/nogalina/api/productos.php
 - Integrantes: Torres, Martin Alberto y Torres, Carlos Emanuel
+- App Android (TP N.º 2): carpeta `android/`, ver [android/README.md](android/README.md)
 
 ## Cómo correrla en local
 
