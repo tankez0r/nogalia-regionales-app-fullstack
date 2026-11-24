@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/clima"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fondo_tarjeta"
+                android:padding="12dp"
+                android:text="@string/clima_cargando" />
+
+            <EditText
+                android:id="@+id/filtroCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:autofillHints=""
+                android:hint="@string/filtro_categoria"
+                android:imeOptions="actionSearch|flagNoExtractUi"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/filtroBusqueda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/filtro_busqueda"
+                android:imeOptions="actionSearch|flagNoExtractUi"
+                android:inputType="text" />
+
+            <CheckBox
+                android:id="@+id/filtroBajo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/solo_bajo_stock" />
+
+            <Button
+                android:id="@+id/buscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buscar" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progreso"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/estado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/reintentar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reintentar"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lista"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>

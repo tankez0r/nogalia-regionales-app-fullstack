@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/campo_nombre">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:maxLength="120" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/campo_categoria">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:maxLength="60" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoPrecio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/campo_precio">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/precio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoStock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/campo_stock">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/stock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoStockMinimo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/campo_stock_minimo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/stockMinimo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoUnidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/campo_unidad">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/unidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="20" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoOrigen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/campo_origen">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/origen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:maxLength="120" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/campo_descripcion">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences|textMultiLine"
+                android:minLines="2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/error"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progreso"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/guardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/guardar" />
+    </LinearLayout>
+</ScrollView>

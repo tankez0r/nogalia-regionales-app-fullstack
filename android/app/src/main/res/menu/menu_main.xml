@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menuNuevo"
+        android:title="@string/nuevo_producto"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menuVentas"
+        android:title="@string/ventas"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menuNotificaciones"
+        android:title="@string/notificaciones"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menuMapa"
+        android:title="@string/donde_estamos"
+        app:showAsAction="never" />
+</menu>
