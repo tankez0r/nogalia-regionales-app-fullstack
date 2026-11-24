@@ -1,0 +1,106 @@
+<resources>
+    <string name="app_name">Nogalina Regionales</string>
+
+    <string name="error_conexion">No se pudo conectar con el servidor. Revisá la conexión a internet.</string>
+    <string name="error_respuesta">La respuesta del servidor no es válida.</string>
+    <string name="error_http">Error del servidor (código %1$d).</string>
+    <string name="reintentar">Reintentar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="aviso">Aviso: %1$s</string>
+    <string name="precio">$%1$.2f</string>
+
+    <string name="clima_cargando">Cargando el clima…</string>
+    <string name="clima_error">No se pudo cargar el clima.</string>
+    <string name="clima_texto">Famatina: %1$s, %2$d °C\nMín. %3$d °C · Máx. %4$d °C · Viento %5$d km/h</string>
+    <string name="clima_despejado_dia">☀️ Despejado</string>
+    <string name="clima_despejado_noche">🌙 Despejado</string>
+    <string name="clima_parcial_dia">⛅ Parcialmente nublado</string>
+    <string name="clima_parcial_noche">☁️ Parcialmente nublado</string>
+    <string name="clima_nublado">☁️ Nublado</string>
+    <string name="clima_niebla">🌫️ Niebla</string>
+    <string name="clima_llovizna">🌦️ Llovizna</string>
+    <string name="clima_lluvia">🌧️ Lluvia</string>
+    <string name="clima_nieve">❄️ Nieve</string>
+    <string name="clima_chaparrones">🌧️ Chaparrones</string>
+    <string name="clima_nevadas">🌨️ Nevadas</string>
+    <string name="clima_tormenta">⛈️ Tormenta</string>
+
+    <string name="nuevo_producto">Nuevo producto</string>
+    <string name="ventas">Ventas</string>
+    <string name="notificaciones">Notificaciones</string>
+    <plurals name="notificaciones_nuevas">
+        <item quantity="one">Notificaciones (%d nueva)</item>
+        <item quantity="other">Notificaciones (%d nuevas)</item>
+    </plurals>
+    <string name="donde_estamos">Dónde estamos</string>
+
+    <string name="filtro_categoria">Categoría</string>
+    <string name="filtro_busqueda">Buscar por nombre, origen o descripción</string>
+    <string name="solo_bajo_stock">Solo bajo stock</string>
+    <string name="buscar">Buscar</string>
+    <string name="sin_productos">No hay productos para mostrar.</string>
+    <string name="categoria_origen">%1$s · %2$s</string>
+    <string name="stock_fila">Stock: %1$d (mín. %2$d)</string>
+
+    <string name="editar">Editar</string>
+    <string name="borrar">Borrar</string>
+    <string name="confirmar_borrar">¿Borrar este producto?</string>
+    <string name="producto_borrado">Producto borrado</string>
+    <string name="detalle_categoria">Categoría: %1$s</string>
+    <string name="detalle_precio">Precio: $%1$.2f</string>
+    <string name="detalle_stock">Stock: %1$d</string>
+    <string name="detalle_stock_minimo">Stock mínimo: %1$d</string>
+    <string name="detalle_unidad">Unidad: %1$s</string>
+    <string name="detalle_origen">Origen: %1$s</string>
+    <string name="sin_dato">Sin especificar</string>
+    <string name="aviso_bajo_stock">Stock bajo: está en el mínimo o por debajo.</string>
+
+    <string name="editar_producto">Editar producto</string>
+    <string name="campo_nombre">Nombre</string>
+    <string name="campo_categoria">Categoría</string>
+    <string name="campo_precio">Precio</string>
+    <string name="campo_stock">Stock</string>
+    <string name="campo_stock_minimo">Stock mínimo</string>
+    <string name="campo_unidad">Unidad (kg, unidad, docena)</string>
+    <string name="campo_origen">Origen / proveedor</string>
+    <string name="campo_descripcion">Descripción</string>
+    <string name="guardar">Guardar</string>
+    <string name="falta_nombre">El nombre es obligatorio</string>
+    <string name="falta_categoria">La categoría es obligatoria</string>
+    <string name="precio_invalido">El precio tiene que ser un número mayor o igual a 0</string>
+    <string name="stock_invalido">El stock tiene que ser un entero mayor o igual a 0</string>
+    <string name="stock_minimo_invalido">El stock mínimo tiene que ser un entero mayor o igual a 0</string>
+    <string name="producto_creado">Producto creado</string>
+    <string name="producto_actualizado">Producto actualizado</string>
+
+    <string name="nueva_venta">Nueva venta</string>
+    <string name="sin_ventas">Todavía no hay ventas.</string>
+    <string name="anular">Anular</string>
+    <string name="confirmar_anular">¿Anular esta venta? El stock vuelve a los productos.</string>
+    <string name="venta_anulada">Venta anulada</string>
+    <string name="venta_titulo">Venta #%1$d · %2$s</string>
+    <string name="venta_total">Total: $%1$.2f · %2$s</string>
+    <string name="item_venta">%1$s x%2$d</string>
+    <string name="estado_completada">Completada</string>
+    <string name="estado_anulada">Anulada</string>
+
+    <string name="elegir_producto">Elegí un producto</string>
+    <string name="producto_con_stock">%1$s (stock %2$d)</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="agregar">Agregar</string>
+    <string name="quitar">Quitar</string>
+    <string name="cantidad_invalida">La cantidad tiene que ser un número entero mayor a 0</string>
+    <string name="sin_stock_suficiente">No hay stock suficiente de %1$s (quedan %2$d)</string>
+    <string name="carrito_vacio">El carrito está vacío</string>
+    <string name="subtotal">%1$d x $%2$.2f = $%3$.2f</string>
+    <string name="total">Total: $%1$.2f</string>
+    <string name="registrar_venta">Registrar venta</string>
+    <string name="venta_registrada">Venta registrada</string>
+
+    <string name="ver_todas">Ver todas las notificaciones</string>
+    <string name="ver_recientes">Ver solo las recientes</string>
+    <string name="sin_notificaciones">Todavía no hay notificaciones.</string>
+    <string name="sin_notificaciones_nuevas">No hay notificaciones nuevas de las últimas 24 horas.</string>
+    <string name="marcar_leida">Marcar como leída</string>
+    <string name="leida">Leída</string>
+</resources>

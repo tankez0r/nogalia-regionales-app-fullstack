@@ -1,0 +1,17 @@
+<resources>
+    <color name="nogal">#6D4C2F</color>
+    <color name="nogal_oscuro">#4A3220</color>
+    <color name="crema">#F6EFE6</color>
+    <color name="bajo_stock">#FDE2E1</color>
+    <color name="anulada">#ECECEC</color>
+    <color name="error">#B3261E</color>
+
+    <style name="Tema" parent="Theme.Material3.Light">
+        <item name="colorPrimary">@color/nogal</item>
+        <item name="colorPrimaryContainer">@color/crema</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">@color/nogal_oscuro</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+</resources>
